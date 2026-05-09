@@ -1,27 +1,100 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - PakTools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Sora:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background: #f4f7f6; }
-        .container { background: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { color: #1e293b; border-bottom: 2px solid #6366f1; padding-bottom: 10px; }
-        .contact-info { background: #e0e7ff; padding: 20px; border-radius: 8px; margin-top: 20px; }
-        a { color: #4f46e5; font-weight: bold; text-decoration: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #1a472a; --secondary: #27a745; --accent: #ffc107; --dark: #0f2818; --light: #f8f9fa; --text: #2c3e50; }
+        
+        body { font-family: 'Sora', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; color: var(--text); line-height: 1.6; }
+        
+        header { background: #1e293b; padding: 15px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #334155; }
+        .header-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        
+        nav a { color: white; text-decoration: none; font-weight: 500; font-size: 0.95rem; margin-left: 20px; transition: 0.3s; }
+        nav a:hover { opacity: 0.8; }
+        
+        /* Contact Card Styling */
+        .contact-section { max-width: 800px; margin: 50px auto; padding: 40px; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .contact-section h1 { color: var(--primary); font-family: 'Poppins', sans-serif; font-size: 2.5rem; margin-bottom: 20px; border-bottom: 3px solid var(--accent); display: inline-block; }
+        .contact-section p { margin-bottom: 20px; font-size: 1.1rem; color: #444; }
+        
+        .contact-info-box { background: #f0fdf4; padding: 25px; border-radius: 10px; border-left: 5px solid var(--secondary); margin: 30px 0; }
+        .contact-info-box a { color: var(--secondary); font-weight: 600; text-decoration: none; font-size: 1.2rem; }
+        .contact-info-box a:hover { text-decoration: underline; }
+
+        @keyframes rotateBounce { 0%, 100% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.1); } }
+        
+        footer { background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%); color: white; padding: 3rem 2rem 1rem; margin-top: 6rem; border-top: 3px solid var(--accent); }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .footer-section a { color: #ddd; text-decoration: none; display: block; margin-bottom: 0.8rem; }
     </style>
 </head>
 <body>
-    <div class="container">
+    <header>
+        <div class="header-container">
+            <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 15px;">
+                <div class="logo-design" style="width: 50px; height: 50px; background: #facc15; border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: rotateBounce 2s ease-in-out infinite;">
+                    <div style="width: 25px; height: 18px; background: #5d4037; border-radius: 3px; position: relative; border: 2px solid #3e2723;">
+                        <div style="width: 10px; height: 5px; border: 2px solid #3e2723; border-bottom: none; position: absolute; top: -6px; left: 50%; transform: translateX(-50%);"></div>
+                    </div>
+                </div>
+                <h1 style="color: white; margin: 0; font-size: 1.8rem; font-family: 'Poppins', sans-serif;">
+                    <span style="color: #facc15;">Pak</span>Tools
+                </h1>
+            </a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="loan.html" style="color: #4ade80;">Loan</a>
+                <a href="tax.html" style="color: #6366f1;">Tax</a>
+                <a href="currency.html" style="color: #00d2ff;">Currency</a>
+                <a href="gold.html" style="color: #D4AF37;">Gold</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="contact-section">
         <h1>Contact Us</h1>
         <p>Have a question or feedback? We would love to hear from you! You can reach out to us for any queries related to our calculators or suggestions for new tools.</p>
-        <div class="contact-info">
-            <strong>Email Us At:</strong><br>
+        
+        <div class="contact-info-box">
+            <p style="margin-bottom: 5px; font-weight: 600; color: var(--dark);">Email Us At:</p>
             <a href="mailto:logicalahmadamir@gmail.com">logicalahmadamir@gmail.com</a>
         </div>
-        <p style="margin-top:20px;">We aim to respond to all inquiries within 24-48 hours.</p>
+        
+        <p style="font-size: 0.95rem; color: #666; font-style: italic;">We aim to respond to all inquiries within 24-48 hours.</p>
     </div>
+
+    <footer>
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Quick Links</h4>
+                    <a href="loan.html">Loan Calculator</a>
+                    <a href="tax.html">Tax Calculator</a>
+                    <a href="currency.html">Currency Converter</a>
+                    <a href="gold.html">Gold Calculator</a>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Information</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="contact.html">Contact Us</a>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Contact Info</h4>
+                    <p>📧 Email: logicalahmadamir@gmail.com</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: #aaa;">
+                <p>&copy; 2026 PakTools. All Rights Reserved. | Made with ❤️ for Pakistan</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
