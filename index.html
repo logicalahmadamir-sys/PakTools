@@ -1,37 +1,743 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PakTools</title>
-<link rel="stylesheet" href="assets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PakTools - Pakistan Ka Makhir Financial Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Sora:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a472a;
+            --secondary: #27a745;
+            --accent: #ffc107;
+            --dark: #0f2818;
+            --light: #f8f9fa;
+            --text: #2c3e50;
+            --border: #e0e0e0;
+            --success: #28a745;
+            --warning: #ff6b6b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Sora', sans-serif;
+            color: var(--text);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER STYLING ===== */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(26, 71, 42, 0.2);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent), #ff9800);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+            animation: rotateBounce 2s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes rotateBounce {
+            0%, 100% {
+                transform: rotate(0deg) scale(1);
+                box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+            }
+            25% {
+                transform: rotate(90deg) scale(1.05);
+            }
+            50% {
+                transform: rotate(180deg) scale(1.1);
+                box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
+            }
+            75% {
+                transform: rotate(270deg) scale(1.05);
+            }
+        }
+
+        .logo::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--accent), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInScale 0.8s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        /* ===== TOOLS SECTION ===== */
+        .tools {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .tool-box {
+            position: relative;
+            height: 280px;
+            cursor: pointer;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: scaleIn 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .tool-box:nth-child(1) { animation-delay: 0.1s; }
+        .tool-box:nth-child(2) { animation-delay: 0.2s; }
+        .tool-box:nth-child(3) { animation-delay: 0.3s; }
+        .tool-box:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5) rotateY(-20deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotateY(0);
+            }
+        }
+
+        .tool-box:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .tool-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            opacity: 1;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .tool-box:nth-child(2)::before {
+            background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+        }
+
+        .tool-box:nth-child(3)::before {
+            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+        }
+
+        .tool-box:nth-child(4)::before {
+            background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+        }
+
+        .tool-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transition: left 0.4s ease;
+            z-index: 1;
+        }
+
+        .tool-box:hover::after {
+            left: 100%;
+        }
+
+        .tool-box a {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            text-decoration: none;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 2rem;
+            z-index: 2;
+            transition: all 0.4s ease;
+        }
+
+        .tool-box:hover a {
+            transform: scale(1.1);
+        }
+
+        /* ===== CONTENT SECTION ===== */
+        .content-section {
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 3rem 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .content-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .content-section p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #555;
+            text-align: justify;
+            margin-bottom: 1rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 3rem 2rem 1rem;
+            margin-top: 6rem;
+            border-top: 3px solid var(--accent);
+        }
+
+        footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        footer .footer-section h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            font-family: 'Playfair Display', serif;
+        }
+
+        footer .footer-section ul {
+            list-style: none;
+        }
+
+        footer .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        footer .footer-section a::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        footer .footer-section a:hover::before {
+            opacity: 1;
+        }
+
+        footer .footer-section a:hover {
+            color: var(--accent);
+            padding-left: 1.5rem;
+        }
+
+        footer .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: #aaa;
+        }
+
+        /* ===== MODAL STYLING ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .modal-content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            border: none;
+            background: none;
+        }
+
+        .close-btn:hover {
+            color: var(--primary);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            nav {
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.9rem;
+            }
+
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .tools {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .tool-box {
+                height: 200px;
+            }
+
+            .tool-box a {
+                font-size: 1.2rem;
+            }
+
+            .content-section {
+                padding: 2rem;
+            }
+
+            .content-section h3 {
+                font-size: 1.5rem;
+            }
+
+            footer .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-<header>
-<h1>PakTools</h1>
-<nav>
-<a href="index.html">Home</a>
-<a href="loan.html">Loan</a>
-<a href="tax.html">Tax</a>
-<a href="currency.html">Currency</a>
-<a href="gold.html">Gold</a>
-</nav>
-</header>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo">💼</div>
+                <h1>PakTools</h1>
+            </div>
+            <nav id="mainNav">
+                <a href="#" onclick="showHome()">Loan Calculator</a>
+                <a href="#" onclick="openModal('tax')">Tax Calculator</a>
+                <a href="#" onclick="openModal('currency')">Currency Converter</a>
+                <a href="#" onclick="openModal('gold')">Gold Calculator</a>
+            </nav>
+        </div>
+    </header>
 
-<section class="hero">
-<h2>Welcome to PakTools</h2>
-<p>Pakistan Financial Tools Website</p>
-</section>
+    <!-- HOME PAGE -->
+    <div id="homePage" class="page-content active">
+        <section class="hero">
+            <h2>Welcome to PakTools</h2>
+            <p>Pakistan Ka Makhir Financial Platform</p>
+            <p class="subtitle">اپنی مالیاتی ضروریات کے لیے بہترین حل</p>
+        </section>
 
-<section class="tools">
-<div class="tool-box"><a href="loan.html">Loan Calculator</a></div>
-<div class="tool-box"><a href="tax.html">Tax Calculator</a></div>
-<div class="tool-box"><a href="currency.html">Currency Converter</a></div>
-<div class="tool-box"><a href="gold.html">Gold Calculator</a></div>
-</section>
+        <section class="tools">
+            <div class="tool-box">
+                <a href="#" onclick="openModal('loan')">💰 Loan Calculator</a>
+            </div>
+            <div class="tool-box">
+                <a href="#" onclick="openModal('tax')">📊 Tax Calculator</a>
+            </div>
+            <div class="tool-box">
+                <a href="#" onclick="openModal('currency')">💱 Currency Converter</a>
+            </div>
+            <div class="tool-box">
+                <a href="#" onclick="openModal('gold')">✨ Gold Calculator</a>
+            </div>
+        </section>
 
-<footer>
-<p>© 2026 PakTools</p>
-</footer>
+        <section class="content-section">
+            <h3>PakTools - آپ کے مالیاتی مستقبل کے لیے</h3>
+            <p>
+                PakTools پاکستان کا سب سے بہترین اور قابل اعتماد مالیاتی پلیٹ فارم ہے جو آپ کو آپ کی تمام مالیاتی ضروریات میں مدد دیتا ہے۔ ہمارے پلیٹ فارم پر آپ کو قرض کا حساب کتاب، ٹیکس کی تفصیلات، کرنسی کی تبدیلی، اور سونے کی قیمتوں کی معلومات ملتی ہے۔ ہمارا مقصد پاکستانی شہری کو بہترین مالیاتی خدمات فراہم کرنا ہے جو انتہائی درست اور محفوظ ہوں۔
+            </p>
+            <p>
+                ہمارے ماہرین نے بہت محنت سے یہ ٹول بنائے ہیں تاکہ آپ کو اپنی مالیاتی منصوبہ بندی میں آسانی ہو۔ PakTools کے ذریعے آپ اپنے قرضے، ٹیکس، اور سرمایہ کاری کے بارے میں صحیح معلومات حاصل کر سکتے ہیں۔ ہم نے یقینی بنایا ہے کہ تمام معلومات بالکل درست اور اپ ڈیٹ ہوں۔ ہماری ٹیم 24/7 آپ کی خدمت میں موجود ہے۔
+            </p>
+            <p>
+                پاکستان میں مالیاتی شفافیت اور شعور بڑھانا ہمارا بنیادی مقصد ہے۔ ہم سمجھتے ہیں کہ عام شہری کو اپنے مالیات کے بارے میں صحیح معلومات ہونی چاہیے۔ PakTools کے ذریعے ہم یہ کام کر رہے ہیں۔ ہمارے پلیٹ فارم پر کوئی بھی شہری آسانی سے اپنے مالیاتی مسائل کو حل کر سکتا ہے۔
+            </p>
+            <p>
+                قرض کا حساب کتاب ہو یا ٹیکس کی تفصیلات، ہمارا PakTools آپ کو ہر جگہ مدد دیتا ہے۔ ہم نے سب کچھ اردو اور انگریزی دونوں میں فراہم کیا ہے تاکہ ہر شہری اسے سمجھ سکے۔ ہمارے ٹول استعمال کرنا بہت آسان ہے اور کوئی بھی شخص انہیں آسانی سے چلا سکتا ہے۔
+            </p>
+            <p>
+                ہم اپنے صارفین کی رازداری اور سیکیورٹی کو بہت اہم سمجھتے ہیں۔ آپ کے تمام ڈیٹا محفوظ رہتے ہیں اور ہم انہیں کسی تیسری طرف کے ساتھ شیئر نہیں کرتے۔ PakTools ایک بالکل مختلف اور منفرد پلیٹ فارم ہے جو صرف پاکستانی شہری کی خدمت میں لگا ہوا ہے۔ اپنے مالیاتی مستقبل کو محفوظ کریں اور PakTools کے ساتھ آگے بڑھیں۔
+            </p>
+        </section>
+    </div>
+
+    <!-- MODALS FOR EACH TOOL -->
+    <div id="loanModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('loan')">&times;</button>
+            <h2>💰 Loan Calculator</h2>
+            <p>یہ ٹول آپ کو آپ کے قرض کی شرح، مدت اور ماہانہ رقم کا حساب کتاب کرنے میں مدد دیتا ہے۔</p>
+            <p><strong>مثال:</strong> اگر آپ نے 5 لاکھ روپے کا قرض 5 سال کی مدت میں 10% کی شرح پر لیا ہے تو آپ کی ماہانہ قسط تقریباً 10,607 روپے ہوگی۔</p>
+            <p>یہ ٹول آپ کو مختلف شرح اور مدت کے ساتھ موازنہ کرنے کی سہولت بھی دیتا ہے۔</p>
+        </div>
+    </div>
+
+    <div id="taxModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('tax')">&times;</button>
+            <h2>📊 Tax Calculator</h2>
+            <p>ہمارا ٹیکس کیلکولیٹر آپ کو آپ کی آمدنی پر دیندہ ٹیکس کا حساب دینے میں مدد کرتا ہے۔</p>
+            <p><strong>خصوصیات:</strong> مختلف ٹیکس سلیبوں کے لیے حساب، چھوٹ اور الاؤنسز کی سہولت، اور سالانہ ٹیکس کی کل رقم معلوم کریں۔</p>
+            <p>پاکستان میں مختلف آمدنی کی سطحوں پر مختلف ٹیکس شرح ہیں۔ یہ ٹول آپ کو صحیح حساب کتاب دیتا ہے۔</p>
+        </div>
+    </div>
+
+    <div id="currencyModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('currency')">&times;</button>
+            <h2>💱 Currency Converter</h2>
+            <p>یہ ٹول آپ کو پاکستانی روپے کو دوسری اقوام کی کرنسیوں میں تبدیل کرنے میں مدد دیتا ہے۔</p>
+            <p><strong>سپورٹ شدہ کرنسیز:</strong> USD, EUR, GBP, SAR, AED, CNY اور بہت سی دوسری کرنسیز۔</p>
+            <p>آج کی حقیقی شرح کے مطابق یہ ٹول آپ کو درست تبدیلی فراہم کرتا ہے۔ سفر، تجارت، یا بیرون ملک رقم بھیجنے کے لیے مفید۔</p>
+        </div>
+    </div>
+
+    <div id="goldModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('gold')">&times;</button>
+            <h2>✨ Gold Calculator</h2>
+            <p>سونے کی قیمت معلوم کریں اور اپنی سرمایہ کاری کا حساب کتاب کریں۔</p>
+            <p><strong>خصوصیات:</strong> روز مرہ سونے کی قیمت، مختلف وزن میں سونے کی کل قیمت، تاریخی قیمتوں کا موازنہ۔</p>
+            <p>پاکستان میں سونا بہت اہم سرمایہ کاری کا ذریعہ ہے۔ یہ ٹول آپ کو اپنی سرمایہ کاری کو صحیح طریقے سے منیج کرنے میں مدد کرتا ہے۔</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#" onclick="openModal('loan')">Loan Calculator</a></li>
+                        <li><a href="#" onclick="openModal('tax')">Tax Calculator</a></li>
+                        <li><a href="#" onclick="openModal('currency')">Currency Converter</a></li>
+                        <li><a href="#" onclick="openModal('gold')">Gold Calculator</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Information</h4>
+                    <ul>
+                        <li><a href="#" onclick="showPage('about')">About Us</a></li>
+                        <li><a href="#" onclick="showPage('contact')">Contact Us</a></li>
+                        <li><a href="#" onclick="showPage('policy')">Policy & Terms</a></li>
+                        <li><a href="#" onclick="showPage('disclaimer')">Disclaimer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li>📧 Email: logicalahmadamir@gmail.com</li>
+                        <li>💬 WhatsApp: +92 300 1234567</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PakTools. All Rights Reserved. | Made with ❤️ for Pakistan</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function openModal(toolName) {
+            const modalId = toolName + 'Modal';
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(toolName) {
+            const modalId = toolName + 'Modal';
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function showHome() {
+            document.getElementById('homePage').classList.add('active');
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.remove('active');
+            });
+        }
+
+        function showPage(pageName) {
+            alert('صفحہ ' + pageName + ' جلد آئے گا!');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+
+        // Add scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.tool-box, .content-section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
