@@ -1,38 +1,53 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - PakTools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Sora:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background: #f4f7f6; }
-        .container { background: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { color: #1e293b; border-bottom: 2px solid #6366f1; padding-bottom: 10px; }
-        p { margin-bottom: 20px; }
-        .highlight { color: #6366f1; font-weight: bold; }
+        /* Yahan wahi CSS hai jo aapne index page mein use ki hai */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #1a472a; --secondary: #27a745; --accent: #ffc107; --dark: #0f2818; --light: #f8f9fa; --text: #2c3e50; }
+        body { font-family: 'Sora', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; }
+        
+        header { background: #1e293b; padding: 15px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #334155; }
+        .container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        nav a { color: white; text-decoration: none; font-weight: 500; font-size: 0.95rem; margin-left: 20px; }
+        
+        /* Logo Animation */
+        @keyframes rotateBounce { 0%, 100% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.1); } }
+        
+        footer { background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%); color: white; padding: 3rem 2rem 1rem; margin-top: 6rem; border-top: 3px solid var(--accent); }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .footer-section a { color: #ddd; text-decoration: none; display: block; margin-bottom: 0.8rem; }
     </style>
 </head>
 <body>
-     <header style="background: #1e293b; padding: 15px 0; border-bottom: 2px solid #334155; position: sticky; top: 0; z-index: 1000;">
-    <div class="container" style="max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
-        
-        <!-- Logo Section -->
-        <div class="logo-container" style="display: flex; align-items: center; gap: 10px;">
-            <div class="logo" style="font-size: 1.8rem;">💼</div>
-            <h1 style="color: white; margin: 0; font-size: 1.5rem; font-family: 'Outfit', sans-serif;">PakTools</h1>
+    <header>
+        <div class="container">
+            <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 15px;">
+                <div class="logo-design" style="width: 50px; height: 50px; background: #facc15; border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: rotateBounce 2s ease-in-out infinite;">
+                    <!-- Briefcase Icon -->
+                    <div style="width: 25px; height: 18px; background: #5d4037; border-radius: 3px; position: relative; border: 2px solid #3e2723;">
+                        <div style="width: 10px; height: 5px; border: 2px solid #3e2723; border-bottom: none; position: absolute; top: -6px; left: 50%; transform: translateX(-50%);"></div>
+                    </div>
+                </div>
+                <h1 style="color: white; margin: 0; font-size: 1.8rem; font-family: 'Poppins', sans-serif;">
+                    <span style="color: #facc15;">Pak</span>Tools
+                </h1>
+            </a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="loan.html" style="color: #4ade80;">Loan</a>
+                <a href="tax.html" style="color: #6366f1;">Tax</a>
+                <a href="currency.html" style="color: #00d2ff;">Currency</a>
+                <a href="gold.html" style="color: #D4AF37;">Gold</a>
+            </nav>
         </div>
-
-        <!-- Desktop Navigation -->
-        <nav id="mainNav" style="display: flex; gap: 20px;">
-            <a href="index.html" style="color: white; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Home</a>
-            <a href="loan.html" style="color: #4ade80; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Loan</a>
-            <a href="tax.html" style="color: #6366f1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Tax</a>
-            <a href="currency.html" style="color: #00d2ff; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Currency</a>
-            <a href="gold.html" style="color: #D4AF37; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Gold</a>
-        </nav>
-    </div>
-</header>
+    </header>
     <div class="container">
         <h1>About Us</h1>
         <p>Welcome to <strong>PakTools</strong>, your number one source for all financial calculation tools. We are dedicated to providing you the very best of utility calculators, with an emphasis on accuracy, speed, and ease of use.</p>
@@ -40,5 +55,51 @@
         <p>Founded in 2026, PakTools has come a long way from its beginnings. We hope you enjoy our free tools as much as we enjoy offering them to you. If you have any questions or comments, please don't hesitate to contact us.</p>
         <p>Sincerely,<br><strong>Team PakTools</strong></p>
     </div>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Quick Links</h4>
+                    <a href="loan.html">Loan Calculator</a>
+                    <a href="tax.html">Tax Calculator</a>
+                    <a href="currency.html">Currency Converter</a>
+                    <a href="gold.html">Gold Calculator</a>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Information</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="contact.html">Contact Us</a>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Contact Info</h4>
+                    <p>📧 Email: logicalahmadamir@gmail.com</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: #aaa;">
+                <p>&copy; 2026 PakTools. All Rights Reserved. | Made with ❤️ for Pakistan</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Animation Logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.tool-box, section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
+
