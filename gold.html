@@ -1,215 +1,192 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Gold Rate Calculator | 24K, 22K, 21K Gold Rates Today</title>
-    <meta name="description" content="Calculate live gold rates in Gram, Tola, and Ounce for 24K, 22K, 21K, and 18K purity. Accurate and mobile responsive gold conversion tool.">
+    <title>Gold Calculator - PakTools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Sora:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
-        :root {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { 
+            --primary: #1a472a; 
+            --secondary: #27a745; 
+            --accent: #ffc107; 
+            --dark: #0f2818; 
             --gold-primary: #D4AF37;
             --gold-dark: #B8860B;
-            --dark-bg: #1a1a1a;
             --card-bg: #2d2d2d;
             --text-light: #f4f4f4;
         }
+        
+        body { font-family: 'Sora', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; line-height: 1.6; }
+        
+        header { background: #1e293b; padding: 15px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #334155; }
+        .header-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        
+        nav a { color: white; text-decoration: none; font-weight: 500; font-size: 0.95rem; margin-left: 20px; transition: 0.3s; }
+        nav a:hover { opacity: 0.8; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
+        /* Calculator Container */
+        .main-wrapper { padding: 40px 20px; display: flex; justify-content: center; }
         .calculator-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
             background: var(--card-bg);
-            padding: 30px;
+            padding: 35px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 1px solid var(--gold-primary);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: 2px solid var(--gold-primary);
+            color: var(--text-light);
         }
 
-        h1 {
-            text-align: center;
-            color: var(--gold-primary);
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
+        h1 { text-align: center; color: var(--gold-primary); font-size: 2rem; margin-bottom: 10px; font-family: 'Poppins', sans-serif; }
+        .last-update { text-align: center; font-size: 0.85rem; color: #bbb; margin-bottom: 30px; }
 
-        .last-update {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #aaa;
-            margin-bottom: 25px;
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--gold-primary); }
+        input, select { 
+            width: 100%; padding: 14px; border-radius: 10px; border: 2px solid #444; 
+            background: #1a1a1a; color: white; font-size: 1rem; outline: none; transition: 0.3s; 
         }
+        input:focus { border-color: var(--gold-primary); }
 
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--gold-primary);
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 2px solid #444;
-            background: #333;
-            color: white;
-            font-size: 1rem;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
-
-        input:focus {
-            border-color: var(--gold-primary);
-            outline: none;
-        }
-
-        .results-grid {
-            display: grid;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
+        .results-grid { display: grid; gap: 12px; margin-top: 25px; }
         .result-card {
-            background: #383838;
-            padding: 15px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 4px solid var(--gold-primary);
-            transform: translateY(20px);
-            opacity: 0;
+            background: #3d3d3d; padding: 18px; border-radius: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-left: 5px solid var(--gold-primary);
+            opacity: 0; transform: translateY(15px);
         }
 
-        .purity-label {
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
+        .price-value { color: var(--gold-primary); font-size: 1.3rem; font-weight: 800; }
+        .unit-badge { background: var(--gold-dark); padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; margin-left: 8px; vertical-align: middle; }
 
-        .price-value {
-            color: var(--gold-primary);
-            font-size: 1.2rem;
-            font-weight: 800;
-        }
-
-        .unit-badge {
-            display: inline-block;
-            background: var(--gold-dark);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            margin-left: 5px;
-        }
-
-        @media (max-width: 480px) {
-            .calculator-container { padding: 20px; }
-            h1 { font-size: 1.4rem; }
-        }
+        @keyframes rotateBounce { 0%, 100% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.1); } }
+        
+        footer { background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%); color: white; padding: 3rem 2rem 1rem; margin-top: 4rem; border-top: 3px solid var(--accent); }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .footer-section a { color: #ddd; text-decoration: none; display: block; margin-bottom: 0.8rem; }
     </style>
 </head>
 <body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 15px;">
+                <div class="logo-design" style="width: 50px; height: 50px; background: #facc15; border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: rotateBounce 2s ease-in-out infinite;">
+                    <div style="width: 25px; height: 18px; background: #5d4037; border-radius: 3px; position: relative; border: 2px solid #3e2723;">
+                        <div style="width: 10px; height: 5px; border: 2px solid #3e2723; border-bottom: none; position: absolute; top: -6px; left: 50%; transform: translateX(-50%);"></div>
+                    </div>
+                </div>
+                <h1 style="color: white; margin: 0; font-size: 1.8rem; font-family: 'Poppins', sans-serif;">
+                    <span style="color: #facc15;">Pak</span>Tools
+                </h1>
+            </a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="loan.html" style="color: #4ade80;">Loan</a>
+                <a href="tax.html" style="color: #6366f1;">Tax</a>
+                <a href="currency.html" style="color: #00d2ff;">Currency</a>
+                <a href="gold.html" style="color: #D4AF37;">Gold</a>
+            </nav>
+        </div>
+    </header>
 
-<div class="calculator-container">
-    <h1>Gold Rate Calculator</h1>
-    <p class="last-update" id="dateDisplay"></p>
+    <div class="main-wrapper">
+        <div class="calculator-container">
+            <h1>Gold Rate Calculator</h1>
+            <p class="last-update" id="dateDisplay"></p>
 
-    <div class="input-group">
-        <label for="unit">Select Unit</label>
-        <select id="unit" onchange="calculateRates()">
-            <option value="gram">Gram</option>
-            <option value="tola">Tola</option>
-            <option value="ounce">Ounce</option>
-        </select>
+            <div class="input-group">
+                <label for="unit">Select Unit</label>
+                <select id="unit" onchange="calculateRates()">
+                    <option value="gram">Gram</option>
+                    <option value="tola">Tola</option>
+                    <option value="ounce">Ounce</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="weight">Enter Quantity</label>
+                <input type="number" id="weight" value="1" min="0" oninput="calculateRates()">
+            </div>
+
+            <div class="results-grid" id="resultsGrid">
+                <!-- JS handles this -->
+            </div>
+        </div>
     </div>
 
-    <div class="input-group">
-        <label for="weight">Enter Quantity</label>
-        <input type="number" id="weight" value="1" min="0" oninput="calculateRates()">
-    </div>
+    <footer>
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Quick Links</h4>
+                    <a href="loan.html">Loan Calculator</a>
+                    <a href="tax.html">Tax Calculator</a>
+                    <a href="currency.html">Currency Converter</a>
+                    <a href="gold.html">Gold Calculator</a>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Information</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="contact.html">Contact Us</a>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Contact Info</h4>
+                    <p>📧 Email: logicalahmadamir@gmail.com</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: #aaa;">
+                <p>&copy; 2026 PakTools. All Rights Reserved. | Made with ❤️ for Pakistan</p>
+            </div>
+        </div>
+    </footer>
 
-    <div class="results-grid" id="resultsGrid">
-        <!-- Results will be injected here by JS -->
-    </div>
-</div>
+    <script>
+        const baseRatePerGram24K = 41539;
+        const purities = [
+            { label: "24 Karat", factor: 1.0 },
+            { label: "22 Karat", factor: 0.9167 },
+            { label: "21 Karat", factor: 0.875 },
+            { label: "18 Karat", factor: 0.75 },
+            { label: "16 Karat", factor: 0.6667 },
+            { label: "12 Karat", factor: 0.5 }
+        ];
 
-<script>
-    // Base Rates for 1 Gram 24K (May 2026 Logic)
-    const baseRatePerGram24K = 41539;
-    
-    const purities = [
-        { label: "24 Karat", factor: 1.0 },
-        { label: "22 Karat", factor: 0.9167 },
-        { label: "21 Karat", factor: 0.875 },
-        { label: "18 Karat", factor: 0.75 },
-        { label: "16 Karat", factor: 0.6667 },
-        { label: "12 Karat", factor: 0.5 }
-    ];
+        function updateDate() {
+            const now = new Date();
+            document.getElementById('dateDisplay').innerText = `Last Update: ${now.toDateString()} | Live Market Feed`;
+        }
 
-    function updateDate() {
-        const now = new Date();
-        document.getElementById('dateDisplay').innerText = `Last Update: ${now.toDateString()} | Live Market Feed`;
-    }
-
-    function calculateRates() {
-        const weight = document.getElementById('weight').value || 0;
-        const unit = document.getElementById('unit').value;
-        const grid = document.getElementById('resultsGrid');
-        
-        let unitMultiplier = 1;
-        if (unit === 'tola') unitMultiplier = 11.6638;
-        if (unit === 'ounce') unitMultiplier = 31.1035;
-
-        grid.innerHTML = '';
-
-        purities.forEach((p, index) => {
-            const finalPrice = Math.round(baseRatePerGram24K * p.factor * unitMultiplier * weight);
+        function calculateRates() {
+            const weight = document.getElementById('weight').value || 0;
+            const unit = document.getElementById('unit').value;
+            const grid = document.getElementById('resultsGrid');
             
-            const card = document.createElement('div');
-            card.className = 'result-card';
-            card.innerHTML = `
-                <span class="purity-label">${p.label} <span class="unit-badge">${unit.toUpperCase()}</span></span>
-                <span class="price-value">Rs. ${finalPrice.toLocaleString()}</span>
-            `;
-            grid.appendChild(card);
-        });
+            let unitMultiplier = 1;
+            if (unit === 'tola') unitMultiplier = 11.6638;
+            if (unit === 'ounce') unitMultiplier = 31.1035;
 
-        // GSAP Animation for smooth SEO friendly entrance
-        gsap.to(".result-card", {
-            opacity: 1,
-            y: 0,
-            stagger: 0.1,
-            duration: 0.5,
-            ease: "back.out(1.7)"
-        });
-    }
+            grid.innerHTML = '';
+            purities.forEach((p) => {
+                const finalPrice = Math.round(baseRatePerGram24K * p.factor * unitMultiplier * weight);
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.innerHTML = `
+                    <span class="purity-label" style="font-weight:600;">${p.label} <span class="unit-badge">${unit.toUpperCase()}</span></span>
+                    <span class="price-value">Rs. ${finalPrice.toLocaleString()}</span>
+                `;
+                grid.appendChild(card);
+            });
 
-    // Auto-update "Simulation" - Har 10 second baad thori tabdeeli
-    setInterval(() => {
-        console.log("Fetching new market updates...");
-        // Reality mein yahan fetch API lag sakti hai
-        calculateRates(); 
-    }, 60000);
+            gsap.to(".result-card", { opacity: 1, y: 0, stagger: 0.1, duration: 0.5, ease: "back.out(1.7)" });
+        }
 
-    // Initial Load
-    window.onload = () => {
-        updateDate();
-        calculateRates();
-    };
-</script>
-
+        window.onload = () => { updateDate(); calculateRates(); };
+    </script>
 </body>
 </html>
