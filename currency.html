@@ -1,253 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Currency Converter | Live Exchange Rates 2026</title>
-    <meta name="description" content="Convert USD, EUR, GBP, PKR and more with our animated, mobile-responsive currency converter. Fast, accurate, and SEO optimized.">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <title>Currency Converter - PakTools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Sora:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #00d2ff;
-            --secondary: #3a7bd5;
-            --dark-bg: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text-main: #f8fafc;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #1a472a; --secondary: #27a745; --accent: #ffc107; --dark: #0f2818; --light: #f8f9fa; --text: #2c3e50; --currency-blue: #00d2ff; }
+        
+        body { font-family: 'Sora', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; color: var(--text); line-height: 1.6; }
+        
+        header { background: #1e293b; padding: 15px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #334155; }
+        .header-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        
+        nav a { color: white; text-decoration: none; font-weight: 500; font-size: 0.95rem; margin-left: 20px; transition: 0.3s; }
+        nav a:hover { opacity: 0.8; }
 
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: radial-gradient(circle at top right, #1e293b, var(--dark-bg));
-            color: var(--text-main);
-            min-height: 100vh;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+        /* Converter Card Styling */
+        .converter-section { max-width: 600px; margin: 50px auto; padding: 40px; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .converter-section h1 { color: var(--currency-blue); font-family: 'Poppins', sans-serif; font-size: 2rem; margin-bottom: 20px; text-align: center; }
+        
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark); }
+        .input-group input, .input-group select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; outline: none; transition: 0.3s; }
+        .input-group input:focus { border-color: var(--currency-blue); }
 
-        .converter-box {
-            width: 100%;
-            max-width: 450px;
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            padding: 40px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
+        .result-box { background: #f0f9ff; padding: 20px; border-radius: 10px; text-align: center; margin-top: 25px; border: 1px dashed var(--currency-blue); }
+        #conversion-result { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
 
-        h1 {
-            font-size: 1.8rem;
-            text-align: center;
-            margin-bottom: 8px;
-            background: linear-gradient(to right, #00d2ff, #91eaff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .status-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #22c55e;
-            border-radius: 50%;
-            margin-right: 5px;
-            box-shadow: 0 0 10px #22c55e;
-        }
-
-        .update-info {
-            text-align: center;
-            font-size: 0.8rem;
-            color: #94a3b8;
-            margin-bottom: 30px;
-        }
-
-        .input-wrapper {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-            color: #cbd5e1;
-        }
-
-        .field-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 14px 16px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: white;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
-        }
-
-        .swap-btn {
-            display: block;
-            margin: 10px auto;
-            background: rgba(255, 255, 255, 0.05);
-            border: none;
-            color: var(--primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 1.2rem;
-        }
-
-        .swap-btn:hover {
-            background: var(--primary);
-            color: white;
-            transform: rotate(180deg);
-        }
-
-        .result-area {
-            margin-top: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(0, 210, 255, 0.1), rgba(58, 123, 213, 0.1));
-            border-radius: 16px;
-            text-align: center;
-            border: 1px dashed rgba(0, 210, 255, 0.3);
-        }
-
-        .result-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--primary);
-            display: block;
-        }
-
-        .exchange-text {
-            font-size: 0.9rem;
-            color: #94a3b8;
-            margin-top: 5px;
-        }
-
-        @media (max-width: 400px) {
-            .converter-box { padding: 25px; }
-        }
+        @keyframes rotateBounce { 0%, 100% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.1); } }
+        
+        footer { background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%); color: white; padding: 3rem 2rem 1rem; margin-top: 6rem; border-top: 3px solid var(--accent); }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .footer-section a { color: #ddd; text-decoration: none; display: block; margin-bottom: 0.8rem; }
     </style>
 </head>
 <body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 15px;">
+                <div class="logo-design" style="width: 50px; height: 50px; background: #facc15; border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: rotateBounce 2s ease-in-out infinite;">
+                    <div style="width: 25px; height: 18px; background: #5d4037; border-radius: 3px; position: relative; border: 2px solid #3e2723;">
+                        <div style="width: 10px; height: 5px; border: 2px solid #3e2723; border-bottom: none; position: absolute; top: -6px; left: 50%; transform: translateX(-50%);"></div>
+                    </div>
+                </div>
+                <h1 style="color: white; margin: 0; font-size: 1.8rem; font-family: 'Poppins', sans-serif;">
+                    <span style="color: #facc15;">Pak</span>Tools
+                </h1>
+            </a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="loan.html" style="color: #4ade80;">Loan</a>
+                <a href="tax.html" style="color: #6366f1;">Tax</a>
+                <a href="currency.html" style="color: #00d2ff;">Currency</a>
+                <a href="gold.html" style="color: #D4AF37;">Gold</a>
+            </nav>
+        </div>
+    </header>
 
-<div class="converter-box">
-    <h1>Currency Converter</h1>
-    <div class="update-info">
-        <span class="status-dot"></span> Live Market Rates: May 9, 2026
-    </div>
-
-    <div class="input-wrapper">
-        <label>Amount</label>
-        <input type="number" id="amount" value="1" placeholder="Enter amount..." oninput="convert()">
-    </div>
-
-    <div class="input-wrapper">
-        <label>From</label>
-        <select id="fromCurrency" onchange="convert()">
-            <option value="USD" selected>🇺🇸 USD - US Dollar</option>
-            <option value="PKR">🇵🇰 PKR - Pakistani Rupee</option>
-            <option value="EUR">🇪🇺 EUR - Euro</option>
-            <option value="GBP">🇬🇧 GBP - British Pound</option>
-            <option value="AED">🇦🇪 AED - UAE Dirham</option>
-            <option value="SAR">🇸🇦 SAR - Saudi Riyal</option>
-        </select>
-    </div>
-
-    <button class="swap-btn" onclick="swapCurrencies()">⇄</button>
-
-    <div class="input-wrapper">
-        <label>To</label>
-        <select id="toCurrency" onchange="convert()">
-            <option value="PKR" selected>🇵🇰 PKR - Pakistani Rupee</option>
-            <option value="USD">🇺🇸 USD - US Dollar</option>
-            <option value="EUR">🇪🇺 EUR - Euro</option>
-            <option value="GBP">🇬🇧 GBP - British Pound</option>
-            <option value="AED">🇦🇪 AED - UAE Dirham</option>
-            <option value="SAR">🇸🇦 SAR - Saudi Riyal</option>
-        </select>
-    </div>
-
-    <div class="result-area" id="resultCard">
-        <span class="result-value" id="convertedAmount">0.00</span>
-        <span class="exchange-text" id="rateText">1 USD = 285.50 PKR</span>
-    </div>
-</div>
-
-<script>
-    // Live Market Rates Logic (Simulated for 2026)
-    const exchangeRates = {
-        "USD": 1,
-        "PKR": 285.50,
-        "EUR": 0.92,
-        "GBP": 0.79,
-        "AED": 3.67,
-        "SAR": 3.75
-    };
-
-    function convert() {
-        const amount = document.getElementById('amount').value;
-        const from = document.getElementById('fromCurrency').value;
-        const to = document.getElementById('toCurrency').value;
+    <div class="converter-section">
+        <h1>Currency Converter</h1>
+        <div class="input-group">
+            <label>Amount</label>
+            <input type="number" id="amount" placeholder="Enter amount" value="1">
+        </div>
+        <div class="input-group">
+            <label>From</label>
+            <select id="from-currency">
+                <option value="USD">USD - US Dollar</option>
+                <option value="PKR" selected>PKR - Pakistani Rupee</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>To</label>
+            <select id="to-currency">
+                <option value="USD" selected>USD - US Dollar</option>
+                <option value="PKR">PKR - Pakistani Rupee</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+            </select>
+        </div>
         
-        if (amount === "" || amount <= 0) {
-            document.getElementById('convertedAmount').innerText = "0.00";
-            return;
+        <div class="result-box">
+            <p style="color: #666; font-size: 0.9rem;">Converted Amount:</p>
+            <div id="conversion-result">---</div>
+        </div>
+    </div>
+
+    <footer>
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Quick Links</h4>
+                    <a href="loan.html">Loan Calculator</a>
+                    <a href="tax.html">Tax Calculator</a>
+                    <a href="currency.html">Currency Converter</a>
+                    <a href="gold.html">Gold Calculator</a>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Information</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="contact.html">Contact Us</a>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Contact Info</h4>
+                    <p>📧 Email: logicalahmadamir@gmail.com</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: #aaa;">
+                <p>&copy; 2026 PakTools. All Rights Reserved. | Made with ❤️ for Pakistan</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Note: Real conversion ke liye aapko API use karni hogi, ye demo rates hain.
+        function calculate() {
+            const amount = document.getElementById('amount').value;
+            const from = document.getElementById('from-currency').value;
+            const to = document.getElementById('to-currency').value;
+            
+            // Static rates for demo
+            const rates = {
+                "PKR": 1,
+                "USD": 278,
+                "EUR": 300,
+                "GBP": 350
+            };
+
+            const result = (amount * rates[from]) / rates[to];
+            document.getElementById('conversion-result').innerText = result.toFixed(2) + " " + to;
         }
 
-        // Calculation: (Amount / FromRate) * ToRate
-        const result = (amount / exchangeRates[from]) * exchangeRates[to];
-        const ratePerOne = (1 / exchangeRates[from]) * exchangeRates[to];
-
-        // Display with animation
-        const display = document.getElementById('convertedAmount');
-        display.innerText = result.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " " + to;
-        
-        document.getElementById('rateText').innerText = `1 ${from} = ${ratePerOne.toFixed(4)} ${to}`;
-
-        // GSAP Flash effect on change
-        gsap.fromTo("#resultCard", 
-            { scale: 0.95, opacity: 0.8 }, 
-            { scale: 1, opacity: 1, duration: 0.4, ease: "elastic.out(1, 0.5)" }
-        );
-    }
-
-    function swapCurrencies() {
-        const from = document.getElementById('fromCurrency');
-        const to = document.getElementById('toCurrency');
-        const temp = from.value;
-        from.value = to.value;
-        to.value = temp;
-        convert();
-    }
-
-    // Initial Animation on Load
-    window.onload = () => {
-        gsap.from(".converter-box", {
-            y: 50,
-            opacity: 0,
-            duration: 1,
-            ease: "power4.out"
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', calculate);
         });
-        convert();
-    };
-</script>
-
+        calculate();
+    </script>
 </body>
 </html>
