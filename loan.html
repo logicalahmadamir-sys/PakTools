@@ -1,1 +1,1134 @@
-<h1>Loan Calculator Page</h1>
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Calculator - قرض کیلکولیٹر</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a472a;
+            --secondary: #27a745;
+            --accent: #ffc107;
+            --dark: #0f2818;
+            --light: #f8f9fa;
+            --text: #2c3e50;
+            --border: #e0e0e0;
+            --success: #28a745;
+            --warning: #ff6b6b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Sora', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* ===== MAIN CALCULATOR BOX ===== */
+        .calculator-box {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 0.6s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* ===== FORM GRID ===== */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-label span {
+            font-size: 1.2rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Sora', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(39, 167, 69, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .input-currency {
+            padding: 12px 15px;
+            background: var(--light);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-weight: 600;
+            color: var(--secondary);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .input-suffix {
+            font-weight: 600;
+            color: var(--secondary);
+            min-width: 40px;
+        }
+
+        /* ===== RANGE SLIDER ===== */
+        .range-slider-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .range-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .range-label {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .range-value {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .range-slider {
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(to right, var(--border), var(--secondary));
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(39, 167, 69, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .range-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(39, 167, 69, 0.6);
+        }
+
+        .range-slider::-moz-range-thumb {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 12px rgba(39, 167, 69, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .range-slider::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(39, 167, 69, 0.6);
+        }
+
+        .range-input-min {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .range-input-max {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-left: 10px;
+        }
+
+        /* ===== BUTTONS ===== */
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 14px 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Sora', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.4s ease;
+            z-index: 0;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            grid-column: 1;
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(39, 167, 69, 0.4);
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, #e0e0e0, #bdbdbd);
+            color: var(--text);
+            grid-column: 2;
+        }
+
+        .btn-reset:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== COMPARISON TABLE ===== */
+        .comparison-header {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 2rem 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .comparison-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table tbody tr:hover {
+            background: var(--light);
+        }
+
+        .comparison-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ===== RESULTS SECTION ===== */
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #f8f9fa, #e8f5e9);
+            border-left: 5px solid var(--secondary);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            animation: slideUp 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .result-card:nth-child(1) { animation-delay: 0.1s; }
+        .result-card:nth-child(2) { animation-delay: 0.2s; }
+        .result-card:nth-child(3) { animation-delay: 0.3s; }
+        .result-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+            word-break: break-word;
+        }
+
+        /* ===== BREAKDOWN CHART ===== */
+        .breakdown-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
+        }
+
+        .breakdown-header {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+        }
+
+        .breakdown-label {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .breakdown-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .pie-chart {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+
+        /* ===== CHART.JS STYLING ===== */
+        .chart-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .calculator-box {
+                padding: 1.5rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-calculate {
+                grid-column: auto;
+            }
+
+            .btn-reset {
+                grid-column: auto;
+            }
+
+            .breakdown-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .results-container {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .calculator-box {
+                padding: 1rem;
+            }
+
+            .form-input,
+            .input-currency,
+            .range-input-min,
+            .range-input-max {
+                font-size: 14px;
+            }
+
+            .results-container {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                font-size: 0.85rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.6rem;
+            }
+
+            .breakdown-grid {
+                gap: 1rem;
+            }
+        }
+
+        /* ===== HIDDEN ELEMENTS ===== */
+        .hidden {
+            display: none;
+        }
+
+        /* ===== TOAST NOTIFICATIONS ===== */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            animation: slideInRight 0.4s ease-out;
+            z-index: 9999;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .error-message {
+            color: var(--warning);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 Loan Calculator</h1>
+            <p>قرض کیلکولیٹر - اپنی قسط معلوم کریں</p>
+        </div>
+
+        <div class="calculator-box">
+            <form id="loanForm">
+                <!-- INPUT FIELDS -->
+                <div class="form-grid">
+                    <!-- LOAN AMOUNT -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span>💵</span>
+                            قرض کی رقم (Loan Amount)
+                        </label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="number" 
+                                id="loanAmount" 
+                                class="form-input" 
+                                placeholder="مثال: 500000"
+                                min="10000"
+                                max="10000000"
+                                step="10000"
+                                value="500000"
+                                required
+                            >
+                            <div class="input-currency">PKR</div>
+                        </div>
+                    </div>
+
+                    <!-- INTEREST RATE -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span>📊</span>
+                            سالانہ شرح سود (Annual Interest Rate)
+                        </label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="number" 
+                                id="interestRate" 
+                                class="form-input" 
+                                placeholder="مثال: 10"
+                                min="0"
+                                max="50"
+                                step="0.1"
+                                value="10"
+                                required
+                            >
+                            <div class="input-suffix">%</div>
+                        </div>
+                    </div>
+
+                    <!-- LOAN DURATION -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span>⏱️</span>
+                            قرض کی مدت (Loan Duration)
+                        </label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="number" 
+                                id="loanDuration" 
+                                class="form-input" 
+                                placeholder="مثال: 60"
+                                min="1"
+                                max="360"
+                                step="1"
+                                value="60"
+                                required
+                            >
+                            <div class="input-suffix">Months</div>
+                        </div>
+                    </div>
+
+                    <!-- DOWN PAYMENT -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span>🎁</span>
+                            ڈاؤن پیمنٹ (Down Payment) - اختیاری
+                        </label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="number" 
+                                id="downPayment" 
+                                class="form-input" 
+                                placeholder="مثال: 100000"
+                                min="0"
+                                max="10000000"
+                                step="10000"
+                                value="0"
+                            >
+                            <div class="input-currency">PKR</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RANGE SLIDERS -->
+                <div class="range-slider-group">
+                    <div class="range-header">
+                        <span class="range-label">💵 قرض کی رقم میں تبدیلی</span>
+                        <span class="range-value" id="amountDisplay">500,000 PKR</span>
+                    </div>
+                    <input 
+                        type="range" 
+                        id="amountSlider" 
+                        class="range-slider" 
+                        min="10000" 
+                        max="10000000" 
+                        step="10000" 
+                        value="500000"
+                    >
+                    <div style="display: flex; gap: 1rem; margin-top: 0.8rem;">
+                        <input type="text" class="range-input-min" value="10,000 PKR" disabled>
+                        <input type="text" class="range-input-max" value="1,00,00,000 PKR" disabled>
+                    </div>
+                </div>
+
+                <div class="range-slider-group">
+                    <div class="range-header">
+                        <span class="range-label">📊 شرح سود میں تبدیلی</span>
+                        <span class="range-value" id="rateDisplay">10%</span>
+                    </div>
+                    <input 
+                        type="range" 
+                        id="rateSlider" 
+                        class="range-slider" 
+                        min="0" 
+                        max="50" 
+                        step="0.1" 
+                        value="10"
+                    >
+                </div>
+
+                <div class="range-slider-group">
+                    <div class="range-header">
+                        <span class="range-label">⏱️ مدت میں تبدیلی</span>
+                        <span class="range-value" id="durationDisplay">60 Months</span>
+                    </div>
+                    <input 
+                        type="range" 
+                        id="durationSlider" 
+                        class="range-slider" 
+                        min="1" 
+                        max="360" 
+                        step="1" 
+                        value="60"
+                    >
+                    <div style="display: flex; gap: 1rem; margin-top: 0.8rem;">
+                        <input type="text" class="range-input-min" value="1 Month" disabled>
+                        <input type="text" class="range-input-max" value="360 Months (30 Years)" disabled>
+                    </div>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="button-group">
+                    <button type="button" class="btn btn-calculate" onclick="calculateLoan()">
+                        <span>🧮 حساب لگائیں (Calculate)</span>
+                    </button>
+                    <button type="button" class="btn btn-reset" onclick="resetForm()">
+                        <span>🔄 ری سیٹ کریں (Reset)</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- RESULTS SECTION -->
+            <div id="resultsSection" class="hidden">
+                <div class="results-container" id="resultsContainer">
+                    <!-- Results will be added here by JavaScript -->
+                </div>
+
+                <!-- DETAILED BREAKDOWN -->
+                <div class="breakdown-section">
+                    <h3 class="breakdown-header">📋 تفصیلی بریک ڈاؤن (Detailed Breakdown)</h3>
+                    <div class="breakdown-grid">
+                        <div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">قرض کی اصل رقم:</span>
+                                <span class="breakdown-value" id="principalAmount">0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">کل سود:</span>
+                                <span class="breakdown-value" id="totalInterest">0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">کل رقم (اصل + سود):</span>
+                                <span class="breakdown-value" id="totalPayment">0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">سود کی شرح (%):</span>
+                                <span class="breakdown-value" id="interestPercentage">0%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">ماہانہ قسط:</span>
+                                <span class="breakdown-value" id="monthlyEmi">0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">شروعات میں سود:</span>
+                                <span class="breakdown-value" id="firstMonthInterest">0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">شروعات میں اصل:</span>
+                                <span class="breakdown-value" id="firstMonthPrincipal">0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">کل مہینے:</span>
+                                <span class="breakdown-value" id="totalMonths">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COMPARISON TABLE -->
+                <div style="margin-top: 2rem;">
+                    <h3 class="comparison-header">📊 سالانہ موازنہ (Year-wise Breakdown)</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>سال (Year)</th>
+                                <th>سال میں کل قسط</th>
+                                <th>سال میں کل سود</th>
+                                <th>سال میں کل اصل</th>
+                                <th>باقی رقم</th>
+                            </tr>
+                        </thead>
+                        <tbody id="yearlyTableBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // LOAN CALCULATOR SCRIPT
+        // ============================================
+
+        // Elements
+        const loanAmountInput = document.getElementById('loanAmount');
+        const interestRateInput = document.getElementById('interestRate');
+        const loanDurationInput = document.getElementById('loanDuration');
+        const downPaymentInput = document.getElementById('downPayment');
+
+        const amountSlider = document.getElementById('amountSlider');
+        const rateSlider = document.getElementById('rateSlider');
+        const durationSlider = document.getElementById('durationSlider');
+
+        const resultsSection = document.getElementById('resultsSection');
+
+        // ============================================
+        // SYNC INPUTS WITH SLIDERS
+        // ============================================
+
+        loanAmountInput.addEventListener('input', (e) => {
+            amountSlider.value = e.target.value;
+            updateAmountDisplay();
+        });
+
+        amountSlider.addEventListener('input', (e) => {
+            loanAmountInput.value = e.target.value;
+            updateAmountDisplay();
+        });
+
+        function updateAmountDisplay() {
+            const value = parseInt(loanAmountInput.value) || 0;
+            document.getElementById('amountDisplay').textContent = 
+                formatNumber(value) + ' PKR';
+        }
+
+        interestRateInput.addEventListener('input', (e) => {
+            rateSlider.value = e.target.value;
+            updateRateDisplay();
+        });
+
+        rateSlider.addEventListener('input', (e) => {
+            interestRateInput.value = e.target.value;
+            updateRateDisplay();
+        });
+
+        function updateRateDisplay() {
+            const value = parseFloat(interestRateInput.value) || 0;
+            document.getElementById('rateDisplay').textContent = value.toFixed(1) + '%';
+        }
+
+        loanDurationInput.addEventListener('input', (e) => {
+            durationSlider.value = e.target.value;
+            updateDurationDisplay();
+        });
+
+        durationSlider.addEventListener('input', (e) => {
+            loanDurationInput.value = e.target.value;
+            updateDurationDisplay();
+        });
+
+        function updateDurationDisplay() {
+            const value = parseInt(loanDurationInput.value) || 0;
+            const years = Math.floor(value / 12);
+            const months = value % 12;
+            let text = '';
+            if (years > 0) text += years + ' Year' + (years > 1 ? 's' : '') + ' ';
+            if (months > 0) text += months + ' Month' + (months > 1 ? 's' : '');
+            if (text === '') text = value + ' Months';
+            document.getElementById('durationDisplay').textContent = text;
+        }
+
+        // ============================================
+        // FORMAT NUMBER WITH COMMAS
+        // ============================================
+
+        function formatNumber(num) {
+            return new Intl.NumberFormat('en-PK').format(num);
+        }
+
+        function formatCurrency(num) {
+            return 'PKR ' + formatNumber(Math.round(num));
+        }
+
+        // ============================================
+        // MAIN CALCULATE FUNCTION
+        // ============================================
+
+        function calculateLoan() {
+            // Get input values
+            const loanAmount = parseFloat(loanAmountInput.value) || 0;
+            const interestRate = parseFloat(interestRateInput.value) || 0;
+            const loanDuration = parseInt(loanDurationInput.value) || 0;
+            const downPayment = parseFloat(downPaymentInput.value) || 0;
+
+            // Validation
+            if (loanAmount <= 0) {
+                showError('قرض کی رقم 0 سے زیادہ ہونی چاہیے');
+                return;
+            }
+            if (loanDuration <= 0) {
+                showError('قرض کی مدت 0 سے زیادہ ہونی چاہیے');
+                return;
+            }
+
+            // Calculate principal (loan amount - down payment)
+            const principal = loanAmount - downPayment;
+            if (principal <= 0) {
+                showError('ڈاؤن پیمنٹ قرض کی رقم سے کم ہونی چاہیے');
+                return;
+            }
+
+            // Monthly interest rate
+            const monthlyRate = interestRate / 100 / 12;
+
+            // Calculate EMI using formula
+            let emi = 0;
+            if (monthlyRate === 0) {
+                emi = principal / loanDuration;
+            } else {
+                emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, loanDuration)) / 
+                      (Math.pow(1 + monthlyRate, loanDuration) - 1);
+            }
+
+            // Calculate totals
+            const totalPayment = emi * loanDuration;
+            const totalInterest = totalPayment - principal;
+            const interestPercentageValue = (totalInterest / principal) * 100;
+
+            // Display results
+            displayResults(
+                principal,
+                emi,
+                totalPayment,
+                totalInterest,
+                interestPercentageValue,
+                monthlyRate,
+                loanDuration
+            );
+
+            // Show results section
+            resultsSection.classList.remove('hidden');
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // ============================================
+        // DISPLAY RESULTS
+        // ============================================
+
+        function displayResults(principal, emi, totalPayment, totalInterest, interestPercentage, monthlyRate, duration) {
+            // Update result cards
+            const resultsHTML = `
+                <div class="result-card">
+                    <div class="result-label">ماہانہ قسط</div>
+                    <div class="result-value">${formatCurrency(emi)}</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">کل سود</div>
+                    <div class="result-value">${formatCurrency(totalInterest)}</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">کل ادائیگی</div>
+                    <div class="result-value">${formatCurrency(totalPayment)}</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">سود کی شرح</div>
+                    <div class="result-value">${interestPercentage.toFixed(2)}%</div>
+                </div>
+            `;
+            document.getElementById('resultsContainer').innerHTML = resultsHTML;
+
+            // Update breakdown
+            document.getElementById('principalAmount').textContent = formatCurrency(principal);
+            document.getElementById('totalInterest').textContent = formatCurrency(totalInterest);
+            document.getElementById('totalPayment').textContent = formatCurrency(totalPayment);
+            document.getElementById('interestPercentage').textContent = interestPercentage.toFixed(2) + '%';
+            document.getElementById('monthlyEmi').textContent = formatCurrency(emi);
+
+            const firstMonthInterest = principal * monthlyRate;
+            const firstMonthPrincipal = emi - firstMonthInterest;
+            document.getElementById('firstMonthInterest').textContent = formatCurrency(firstMonthInterest);
+            document.getElementById('firstMonthPrincipal').textContent = formatCurrency(firstMonthPrincipal);
+            document.getElementById('totalMonths').textContent = duration + ' Months';
+
+            // Generate yearly breakdown table
+            generateYearlyTable(principal, monthlyRate, emi, duration);
+
+            showSuccess('حساب مکمل ہوگیا! ✓');
+        }
+
+        // ============================================
+        // GENERATE YEARLY TABLE
+        // ============================================
+
+        function generateYearlyTable(principal, monthlyRate, emi, duration) {
+            let balance = principal;
+            let tableHTML = '';
+            let yearlyPayment = 0;
+            let yearlyInterest = 0;
+            let yearlyPrincipal = 0;
+            let monthCount = 0;
+
+            for (let month = 1; month <= duration; month++) {
+                const interestPayment = balance * monthlyRate;
+                const principalPayment = emi - interestPayment;
+                balance -= principalPayment;
+                balance = Math.max(0, balance);
+
+                yearlyPayment += emi;
+                yearlyInterest += interestPayment;
+                yearlyPrincipal += principalPayment;
+                monthCount++;
+
+                // After every 12 months or at the end
+                if (monthCount === 12 || month === duration) {
+                    const year = Math.ceil(month / 12);
+                    tableHTML += `
+                        <tr>
+                            <td>${year}</td>
+                            <td>${formatCurrency(yearlyPayment)}</td>
+                            <td>${formatCurrency(yearlyInterest)}</td>
+                            <td>${formatCurrency(yearlyPrincipal)}</td>
+                            <td>${formatCurrency(balance)}</td>
+                        </tr>
+                    `;
+                    yearlyPayment = 0;
+                    yearlyInterest = 0;
+                    yearlyPrincipal = 0;
+                    monthCount = 0;
+                }
+            }
+
+            document.getElementById('yearlyTableBody').innerHTML = tableHTML;
+        }
+
+        // ============================================
+        // RESET FORM
+        // ============================================
+
+        function resetForm() {
+            loanAmountInput.value = 500000;
+            interestRateInput.value = 10;
+            loanDurationInput.value = 60;
+            downPaymentInput.value = 0;
+
+            amountSlider.value = 500000;
+            rateSlider.value = 10;
+            durationSlider.value = 60;
+
+            updateAmountDisplay();
+            updateRateDisplay();
+            updateDurationDisplay();
+
+            resultsSection.classList.add('hidden');
+            showSuccess('فارم ری سیٹ ہو گیا! ✓');
+        }
+
+        // ============================================
+        // NOTIFICATIONS
+        // ============================================
+
+        function showSuccess(message) {
+            showNotification(message, 'success');
+        }
+
+        function showError(message) {
+            showNotification(message, 'error');
+        }
+
+        function showNotification(message, type) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            toast.style.background = type === 'success' ? '#28a745' : '#ff6b6b';
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideOutRight 0.4s ease-out';
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        // ============================================
+        // AUTO CALCULATE ON ENTER
+        // ============================================
+
+        document.getElementById('loanForm').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                calculateLoan();
+            }
+        });
+
+        // Initialize displays
+        updateAmountDisplay();
+        updateRateDisplay();
+        updateDurationDisplay();
+    </script>
+</body>
+</html>
