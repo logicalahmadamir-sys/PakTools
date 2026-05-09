@@ -1,1 +1,271 @@
-<h1>Tax Calculator Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Income Tax Calculator 2026 | Easy Tax Planner</title>
+    <meta name="description" content="Calculate your monthly and annual income tax easily. Professional tax calculator with visual breakdown and latest tax slabs.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --text-gray: #94a3b8;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            color: white;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .tax-card {
+            width: 100%;
+            max-width: 500px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            padding: 35px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            text-align: center;
+            margin-top: 0;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            color: var(--text-gray);
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-container span {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            color: white;
+            font-size: 1.1rem;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .toggle-container {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 25px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .summary-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 18px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .summary-row.total {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 12px;
+            font-weight: bold;
+            color: #f87171;
+        }
+
+        .take-home {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(21, 128, 61, 0.1));
+            border-radius: 14px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .take-home h2 {
+            margin: 0;
+            color: #4ade80;
+            font-size: 1.8rem;
+        }
+
+        .progress-bar-container {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tax-card">
+    <h1>Tax Calculator</h1>
+    
+    <div class="toggle-container">
+        <div class="toggle-btn active" id="monthlyBtn" onclick="setMode('monthly')">Monthly</div>
+        <div class="toggle-btn" id="yearlyBtn" onclick="setMode('yearly')">Yearly</div>
+    </div>
+
+    <div class="input-group">
+        <label id="inputLabel">Enter Monthly Salary</label>
+        <div class="input-container">
+            <span>Rs.</span>
+            <input type="number" id="salaryInput" placeholder="e.g. 100000" oninput="calculateTax()">
+        </div>
+    </div>
+
+    <div class="summary-box">
+        <div class="summary-row">
+            <span>Gross Income</span>
+            <span id="grossValue">Rs. 0</span>
+        </div>
+        <div class="summary-row">
+            <span>Taxable Amount</span>
+            <span id="taxableValue">Rs. 0</span>
+        </div>
+        <div class="summary-row total">
+            <span>Estimated Tax</span>
+            <span id="taxValue">Rs. 0</span>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-fill" id="taxProgress"></div>
+        </div>
+    </div>
+
+    <div class="take-home">
+        <p style="margin: 0; font-size: 0.8rem; color: var(--text-gray);">TAKE HOME SALARY</p>
+        <h2 id="takeHomeValue">Rs. 0</h2>
+    </div>
+</div>
+
+<script>
+    let mode = 'monthly';
+
+    function setMode(newMode) {
+        mode = newMode;
+        document.getElementById('monthlyBtn').classList.toggle('active', mode === 'monthly');
+        document.getElementById('yearlyBtn').classList.toggle('active', mode === 'yearly');
+        document.getElementById('inputLabel').innerText = mode === 'monthly' ? 'Enter Monthly Salary' : 'Enter Yearly Salary';
+        calculateTax();
+    }
+
+    function calculateTax() {
+        let input = parseFloat(document.getElementById('salaryInput').value) || 0;
+        let yearlySalary = mode === 'monthly' ? input * 12 : input;
+        
+        let tax = 0;
+
+        // Simplified 2026 Tax Slabs Simulation
+        if (yearlySalary > 600000) {
+            if (yearlySalary <= 1200000) {
+                tax = (yearlySalary - 600000) * 0.05;
+            } else if (yearlySalary <= 2200000) {
+                tax = 30000 + (yearlySalary - 1200000) * 0.15;
+            } else {
+                tax = 180000 + (yearlySalary - 2200000) * 0.25;
+            }
+        }
+
+        let displayTax = mode === 'monthly' ? tax / 12 : tax;
+        let displayGross = input;
+        let displayTakeHome = input - displayTax;
+
+        // Update Values
+        document.getElementById('grossValue').innerText = "Rs. " + Math.round(displayGross).toLocaleString();
+        document.getElementById('taxValue').innerText = "Rs. " + Math.round(displayTax).toLocaleString();
+        document.getElementById('takeHomeValue').innerText = "Rs. " + Math.round(displayTakeHome).toLocaleString();
+        document.getElementById('taxableValue').innerText = "Rs. " + Math.round(yearlySalary > 600000 ? input : 0).toLocaleString();
+
+        // Progress Bar (Visual representation of tax burden)
+        let taxPercent = (displayTax / displayGross) * 100 || 0;
+        document.getElementById('taxProgress').style.width = Math.min(taxPercent * 4, 100) + "%";
+
+        // Animation Effect
+        gsap.from("#takeHomeValue", {
+            scale: 1.1,
+            duration: 0.2,
+            ease: "power2.out"
+        });
+    }
+
+    // Initial Load Animation
+    window.onload = () => {
+        gsap.from(".tax-card", {
+            opacity: 0,
+            y: 30,
+            duration: 1,
+            ease: "expo.out"
+        });
+    };
+</script>
+
+</body>
+</html>
